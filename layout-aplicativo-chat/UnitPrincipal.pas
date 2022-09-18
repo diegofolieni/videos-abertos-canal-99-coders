@@ -1,0 +1,203 @@
+unit UnitPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.Layouts, FMX.Controls.Presentation, FMX.StdCtrls, FMX.ListView.Types,
+  FMX.ListView.Appearances, FMX.ListView.Adapters.Base, FMX.ListView, FMX.TextLayout,
+  FMX.Edit;
+
+type
+  TFormPrincipal = class(TForm)
+    Layout1: TLayout;
+    Layout2: TLayout;
+    ImgVoltar: TImage;
+    Label1: TLabel;
+    Circle1: TCircle;
+    Label2: TLabel;
+    Layout3: TLayout;
+    LtvChat: TListView;
+    ImgFundo: TImage;
+    StyleBook1: TStyleBook;
+    EditMsg: TEdit;
+    BtnEnviar: TSpeedButton;
+    Image1: TImage;
+    procedure FormShow(Sender: TObject);
+    procedure LtvChatUpdateObjects(const Sender: TObject;
+      const AItem: TListViewItem);
+    procedure BtnEnviarClick(Sender: TObject);
+  private
+    procedure addMessage(id_msg: Integer; msg, data_msg: String;ind_proprio: Boolean);
+    procedure listMessages;
+    procedure adjustLayoutLtvReceived(item: TListViewItem);
+    procedure adjustLayoutLtvSent(item: TListViewItem);
+    function GetTextHeight(const D: TListItemText; const Width: single; const Text: string): double;
+  public
+    { Public declarations }
+  end;
+
+var
+  FormPrincipal: TFormPrincipal;
+
+implementation
+
+{$R *.fmx}
+
+{ TFormPrincipal }
+
+procedure TFormPrincipal.addMessage(id_msg: Integer; msg, data_msg: String;ind_proprio: Boolean);
+var
+  item: TListViewItem;
+begin
+  item := LtvChat.Items.Add;
+  with item do
+  begin
+    Height := 100;
+    Tag    := id_msg;
+    if(ind_proprio)then
+      TagString := 'S'
+    else
+      TagString := 'N';
+    //Fundo...
+    TListItemImage(Objects.FindDrawable('ImgFundo')).Bitmap := ImgFundo.BitMap;
+    //Texto...
+    TListItemText(Objects.FindDrawable('TxtMsg')).Text := msg;
+    //Data...
+    TListItemText(Objects.FindDrawable('TxtData')).Text := data_msg;
+
+    if(ind_proprio)then
+      adjustLayoutLtvSent(item)
+    else
+      adjustLayoutLtvReceived(item);
+  end;
+end;
+
+procedure TFormPrincipal.adjustLayoutLtvSent(item: TListViewItem);
+var
+  img : TListItemImage;
+  txt : TListItemText;
+begin
+  //Posiciona o texto...
+  txt               := TListItemText(item.Objects.FindDrawable('TxtMsg'));
+  txt.Width         := (LtvChat.Width/2) - 16;
+//  txt.PlaceOffset.X := 20;
+  txt.PlaceOffset.Y := 10;
+  txt.Height        := GetTextHeight(txt, txt.Width, txt.Text);
+  txt.TextColor     := $FFFFFFFF;
+
+  //Posiciona o balão da mensagem...
+  img               := TListItemImage(item.Objects.FindDrawable('ImgFundo'));
+  if(txt.Height < 40)then //Mensagem ocm apenas uma linha...
+    img.Width := Trunc(txt.Text.Length * 8)
+  else
+    img.Width         := (LtvChat.Width/2);
+  img.PlaceOffset.X := LtvChat.Width - 10 - img.Width;
+  img.PlaceOffset.Y := 10;
+  img.Height        := txt.Height;
+  img.Opacity       := 1;
+
+  txt.PlaceOffSet.X := LtvChat.Width - img.Width;
+
+  //Data...
+  txt               := TListItemText(item.Objects.FindDrawable('TxtData'));
+  txt.PlaceOffSet.X := (img.PlaceOffSet.X + img.Width) - 100;
+  txt.PlaceOffSet.Y := (img.PlaceOffSet.Y + img.Height) + 1;
+
+  //Altura do Item da ListView
+  item.Height := Trunc(img.PlaceOffSet.Y + img.Height + 20);
+end;
+
+procedure TFormPrincipal.BtnEnviarClick(Sender: TObject);
+begin
+  addMessage(1212, EditMsg.Text, FormatDateTime('dd/mm/yyyy hh:nn', now), true);
+  LtvChat.ScrollTo(LtvChat.Items.Count - 1);
+  EditMsg.Text := '';
+end;
+
+procedure TFormPrincipal.adjustLayoutLtvReceived(item: TListViewItem);
+var
+  img: TListItemImage;
+  txt: TListItemText;
+begin
+  //Posiciona o texto...
+  txt               := TListItemText(item.Objects.FindDrawable('TxtMsg'));
+  txt.Width         := (LtvChat.Width/2) - 16;
+  txt.PlaceOffset.X := 20;
+  txt.PlaceOffset.Y := 10;
+  txt.Height        := GetTextHeight(txt, txt.Width, txt.Text);
+  txt.TextColor     := $FF000000;
+
+  //Posiciona o balão da mensagem...
+  img               := TListItemImage(item.Objects.FindDrawable('ImgFundo'));
+  img.Width         := (LtvChat.Width/2);
+  img.PlaceOffset.X := 10;
+  img.PlaceOffset.Y := 10;
+  img.Height        := txt.Height;
+  img.Opacity       := 0.2;
+
+  if(txt.Height < 40)then
+    img.Width := Trunc(txt.Text.Length * 8);
+  //Data...
+  txt               := TListItemText(item.Objects.FindDrawable('TxtData'));
+  txt.PlaceOffSet.X := (img.PlaceOffSet.X + img.Width) - 100;
+  txt.PlaceOffSet.Y := (img.PlaceOffSet.Y + img.Height) + 1;
+
+  //Altura do Item da ListView
+  item.Height := Trunc(img.PlaceOffSet.Y + img.Height + 20);
+
+end;
+
+procedure TFormPrincipal.FormShow(Sender: TObject);
+begin
+  listMessages;
+end;
+
+function TFormPrincipal.GetTextHeight(const D: TListItemText;const Width: single; const Text: string): double;
+var
+  Layout: TTextLayout;
+begin
+  Layout := TTextLayoutManager.DefaultTextLayout.Create;
+  try
+    Layout.BeginUpdate;
+    try
+      Layout.Font.Assign(D.Font);
+      Layout.VerticalAlign   := D.TextVertAlign;
+      Layout.HorizontalAlign := D.TextAlign;
+      Layout.WordWrap        := D.WordWrap;
+      Layout.Trimming        := D.Trimming;
+      Layout.MaxSize         := TPointF.Create(Width, TTextLayout.MaxLayoutSize.Y);
+      Layout.Text            := Text;
+    finally
+      Layout.EndUpdate;
+    end;
+
+    Result := Round(Layout.Height);
+
+    Layout.Text := 'm';
+    Result := Result + Round(Layout.Height);
+  finally
+    Layout.Free;
+  end;
+end;
+
+procedure TFormPrincipal.listMessages;
+begin
+  addMessage(123, 'Olá mundo!!', '15/11/2022 08:15', False);
+  addMessage(123, 'Preciso tirar uma dúvida. Algúem pode me ajudar, por favor?', '15/11/2022 08:15', False);
+  addMessage(123, 'Bom dia! Preciso do seu e-mail...', '15/11/2022 08:15', True);
+  addMessage(123, 'Preciso informar meu e-mail?', '15/11/2022 08:15', False);
+  addMessage(123, 'Seu chamado já foi enviado para o time de desenvolvimento. Vamos retornar em até 2 dias úteis.','15/11/2022 08:15', True);
+end;
+
+procedure TFormPrincipal.LtvChatUpdateObjects(const Sender: TObject;
+  const AItem: TListViewItem);
+begin
+  if(AItem.TagString = 'S')then
+    adjustLayoutLtvSent(AItem)
+  else
+    adjustLayoutLtvReceived(AItem);
+end;
+
+end.

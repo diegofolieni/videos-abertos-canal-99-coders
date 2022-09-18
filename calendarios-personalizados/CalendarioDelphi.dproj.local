@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/09/13 14:18:07.000.292,=C:\Users\Prog2\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2022/09/13 14:18:48.000.551,C:\Users\Prog2\Documents\Embarcadero\Studio\Projects\Unit2.fmx=C:\Users\Prog2\Documents\99Coders\UnitPrincipal.fmx</Transaction>
+    <Transaction>2022/09/13 14:18:48.000.551,C:\Users\Prog2\Documents\Embarcadero\Studio\Projects\Unit2.pas=C:\Users\Prog2\Documents\99Coders\UnitPrincipal.pas</Transaction>
+    <Transaction>2022/09/13 14:18:55.000.603,C:\Users\Prog2\Documents\Embarcadero\Studio\Projects\Project2.dproj=C:\Users\Prog2\Documents\99Coders\CalendarioDelphi.dproj</Transaction>
+    <Transaction>2022/09/13 14:27:57.000.093,=C:\Users\Prog2\Documents\99Coders\Units\uCustomCalendar.pas</Transaction>
+  </Transactions>
+</BorlandProject>

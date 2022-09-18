@@ -1,0 +1,93 @@
+object FormPrincipal: TFormPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'Calend'#225'rio'
+  ClientHeight = 480
+  ClientWidth = 320
+  Fill.Kind = Solid
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnClose = FormClose
+  OnShow = FormShow
+  DesignerMasterStyle = 3
+  object RectCalendario: TRectangle
+    Align = Top
+    Corners = [BottomLeft, BottomRight]
+    Fill.Color = xFF6A7BFF
+    Size.Width = 320.000000000000000000
+    Size.Height = 310.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    XRadius = 20.000000000000000000
+    YRadius = 20.000000000000000000
+    object LytNavegacao: TLayout
+      Align = Top
+      Size.Width = 320.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object LblMes: TLabel
+        Align = Contents
+        StyledSettings = [Family, Style]
+        Size.Width = 320.000000000000000000
+        Size.Height = 50.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.FontColor = claWhite
+        TextSettings.HorzAlign = Center
+        Text = 'M'#234's 2022'
+        TabOrder = 2
+      end
+      object ImgAnterior: TImage
+        MultiResBitmap.Height = 48
+        MultiResBitmap.Width = 48
+        MultiResBitmap = <
+          item
+            Width = 48
+            Height = 48
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000300000003008060000005702F9
+              87000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              00A6494441546843EDD14D0AC2301445E1E8AEFCD998E0A0BA649D27DECA551C
+              A413C1E63D391F84D03483F3DA0200008075B4D6A65AEBC58FB9CCF15A4F1AE2
+              EAE31CD4FC8E7FD11067BF8E4DADBDF89BD6CE57E2522BF143A895F821D44AFC
+              106A25FE5B5BEFBFB0F11E9F3EFAD25FD8FB4A7C6A5E1AE2E02BF1A9F96F87B8
+              33C4DAD4DC1D42DBD157E2532C4384A0D8DE1027BFCE41CD9F434C3ECE650E4F
+              1B0F0000104E290FAFC11D26DAD052110000000049454E44AE426082}
+            FileName = 'C:\Users\Prog2\Documents\99Coders\Images\icon-prior.png'
+          end>
+        Align = Left
+      end
+      object ImgPosterior: TImage
+        MultiResBitmap.Height = 48
+        MultiResBitmap.Width = 48
+        MultiResBitmap = <
+          item
+            Width = 48
+            Height = 48
+            PNG = {
+              89504E470D0A1A0A0000000D49484452000000300000003008060000005702F9
+              87000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
+              0091494441546843EDD2410AC2301844E1D45B59BD98E0427B64DD274EF40FE4
+              008DCDC0FBA084EEDE8424000000EC23E7FC2CA53CE2D78BE237C5375E23147F
+              8FF09ECF080D38EB7B45788F117FC588593062168C98C5C811A738475BE2F4A3
+              9B5F6D9F90C22FC41F21E2DF11DC237E28455E893F82227DE32BC5DF22B8E711
+              DFD4E05FF797577C53C36DE3010000ECA4F401A3361D26C4D0C5CF0000000049
+              454E44AE426082}
+            FileName = 'C:\Users\Prog2\Documents\99Coders\Images\icon-next.png'
+          end>
+        Align = Right
+        Position.X = 270.000000000000000000
+      end
+    end
+    object LytCalendario: TLayout
+      Align = Client
+      Margins.Bottom = 15.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 245.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+    end
+  end
+end
