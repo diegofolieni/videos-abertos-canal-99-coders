@@ -7,5 +7,5 @@ Este repositório conta com os projetos desenvolvidos e disponibilizados aberta 
 > O executável(.apk) da aplicação para Android pode ser encontrado dentro da Android.
 
 ## Utilize a lista para navegar pelos diretórios.
-- [Criando o layout para uma aplicação de Chat](./layout-aplicativo-chat/ReadMe.md)
-- [Trabalhando com calendários personalizados em seus apps com Delphi](./calendarios-personalizados/ReadMe.md)
+- [Criando o layout para uma aplicação de Chat](./layout-aplicativo-chat)
+- [Trabalhando com calendários personalizados em seus apps com Delphi](./calendarios-personalizados)
